@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useEffect, useState} from 'react';
+import Form from './Form'
+import CardContainer from './CardContainer'
 
 function App() {
+
+  const [nameBirthday, setNameBirthday ] = useState ([])
+
+  useEffect(() => {
+    fetch('http://localhost:3000/formTest')
+    .then(resp => resp.json())
+    .then(data => setNameBirthday(data))
+
+  },[])
+
+  const onAddNameBirthday = (newNameBirthday) => {
+    setNameBirthday((nameBirthday) => [...nameBirthday, newNameBirthday] )
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Form onAddNameBirthday={onAddNameBirthday}/>
+      <CardContainer nameBirthday={nameBirthday} />
     </div>
   );
 }
